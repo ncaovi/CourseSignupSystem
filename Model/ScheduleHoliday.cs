@@ -24,6 +24,6 @@ namespace CourseSignupSystem.Models
         public DateTime ScheduleHolidayStartDate { get; set; }
 
         [Display(Name = "Ngày Kết Thúc")]
-        public DateTime ScheduleHolidayEndDate { get; set; }
+        public DateTime ScheduleHolidayEndDate { get; set; } 
     }
 }

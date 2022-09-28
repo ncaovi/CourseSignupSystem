@@ -54,7 +54,7 @@ namespace CourseSignupSystem.Models
 
 
         public UserModel userModel { get; set; }
-        public SubjectModel subjectModel { get; set; }
+        public SubjectModel subjectModel { get; set; } 
 
     }
 }

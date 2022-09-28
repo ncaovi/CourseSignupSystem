@@ -23,6 +23,6 @@ namespace CourseSignupSystem.Models
         public string SubjectName { get; set; }
 
         public DepartmentModel departmentModel { get; set; }
-        public CourseModel courseModel { get; set; }
+        public CourseModel courseModel { get; set; } 
     }
 }

@@ -80,6 +80,7 @@ namespace CourseSignupSystem
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();

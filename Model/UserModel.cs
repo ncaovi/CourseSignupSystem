@@ -103,7 +103,7 @@ namespace CourseSignupSystem.Models
 
         public bool IsDelete { get; set; }
 
-        public RoleModel roleModel { get; set; }
+        public RoleModel roleModel { get; set; } 
 
         public ClassModel classModel { get; set; }
     }

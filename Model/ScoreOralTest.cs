@@ -24,7 +24,7 @@ namespace CourseSignupSystem.Models
 
 
         [Display(Name = "Điểm Thứ Nhất")]
-        public float ScoreFinalFisrt { get; set; }
+        public float ScoreFinalFisrt { get; set; } 
 
         [Display(Name = "Điểm Thứ Hai")]
         public float ScoreFinalSecond { get; set; }

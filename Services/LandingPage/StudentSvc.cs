@@ -36,7 +36,7 @@ namespace CourseSignupSystem.Services.LandingPage
                 var student = await _context.UserModels.FindAsync(registerClass.RegisterUser);
                 var classs = await _context.ClassModels.FindAsync(registerClass.RegisterClassCourse);
 
-                registerClass.RegisterClassCourseName = classs.ClassCourseName;
+                registerClass.RegisterClassCourseName = classs.ClassCourseName; 
                 registerClass.RegisterClassStudentName = student.UserFisrtName;
                 registerClass.RegisterClassStudentCode = student.UserStudentCode;
                 registerClass.RegisterClassTuition = classs.ClassTuition;

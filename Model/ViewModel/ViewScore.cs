@@ -9,7 +9,7 @@
 
         public string ScoreStudentName { get; set; }
 
-        public float ScoreOralTestFisrt { get; set; }
+        public float ScoreOralTestFisrt { get; set; } 
 
         public float ScoreOralTestSecond { get; set; }
 

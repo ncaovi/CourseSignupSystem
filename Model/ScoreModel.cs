@@ -35,7 +35,7 @@ namespace CourseSignupSystem.Models
         public int ScoreQuantityRequired { get; set; }
 
 
-        public ScoreTypeModel scoreTypeModel { get; set; }
+        public ScoreTypeModel scoreTypeModel { get; set; } 
 
         public SubjectModel subjectModel { get; set; }
 

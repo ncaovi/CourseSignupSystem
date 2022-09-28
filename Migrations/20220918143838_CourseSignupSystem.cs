@@ -13,7 +13,7 @@ namespace CourseSignupSystem.Migrations
                 {
                     CourseId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CourseCode = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    CourseCode = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true), 
                     CourseName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     CourseStartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CourseEndTime = table.Column<DateTime>(type: "datetime2", nullable: false)

@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace CourseSignupSystem.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("api/[controller]")]    
+    [ApiController]  
     public class StudentController : ControllerBase
     {
         private readonly IStudent _studentSvc;

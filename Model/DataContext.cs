@@ -32,7 +32,7 @@ namespace CourseSignupSystem.Models
 
         public DbSet<ScheduleStudent> ScheduleStudents { get; set; }
         public DbSet<RegisterClass> registerClasses { get; set; }
-        public DbSet<TurnoverModel> TurnoverModels { get; set; }
+        public DbSet<TurnoverModel> TurnoverModels { get; set; } 
 
     }
 }

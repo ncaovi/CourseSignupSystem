@@ -19,7 +19,7 @@ namespace CourseSignupSystem.Models
         public string RegisterClassCourseName { get; set; }
 
         public DateTime RegistClassDate { get; set; }
-
+         
         public string RegisterClassDescription { get; set; }
 
         public double RegisterClassTuition { get; set; }

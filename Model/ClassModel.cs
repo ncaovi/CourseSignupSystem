@@ -45,7 +45,7 @@ namespace CourseSignupSystem.Models
         //[ForeignKey("userModel")]
         //public int ClassUser { get; set; }
 
-        public ICollection<UserModel> userModel { get; set; }
+        public ICollection<UserModel> userModel { get; set; } 
 
         public CourseModel courseModel { get; set; }
     }

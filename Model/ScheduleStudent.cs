@@ -38,7 +38,7 @@ namespace CourseSignupSystem.Models
         public string ScheduleRoom { get; set; }
 
         [Display(Name = "Thứ")]
-        public DateTime ScheduleOn { get; set; }
+        public DateTime ScheduleOn { get; set; } 
 
         [Display(Name = "Ngày Bắt Đầu")]
         public DateTime ScheduleStartDate { get; set; }

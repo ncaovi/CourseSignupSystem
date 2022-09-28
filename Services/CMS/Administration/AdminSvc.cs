@@ -18,7 +18,8 @@ namespace CourseSignupSystem.Services.CMS.Administration
         protected DataContext _context;
         protected IEncode _enCode;
 
-        public AdminSvc(DataContext context, IEncode encode)
+
+        public AdminSvc(DataContext context, IEncode encode) 
         {
             _context = context;
             _enCode = encode;

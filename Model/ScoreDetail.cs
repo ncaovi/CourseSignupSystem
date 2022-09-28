@@ -26,7 +26,7 @@ namespace CourseSignupSystem.Models
 
         [Display(Name = "Điểm")]
         [ForeignKey("scoreOralTest")]
-        public int ScoreDetailOral { get; set; }
+        public int ScoreDetailOral { get; set; } 
 
 
         [Display(Name = "Điểm Trung Bình")]

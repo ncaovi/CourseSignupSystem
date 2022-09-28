@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CourseSignupSystem.Interfaces
 {
-    public interface IAdmin
+    public interface IAdmin  
     {
         #region Role
         Task<int> AddRole(RoleModel roleModel);

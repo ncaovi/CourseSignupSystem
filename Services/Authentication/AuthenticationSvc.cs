@@ -131,7 +131,7 @@ namespace CourseSignupSystem.Services.Authentication
                 _context.Update(_user);
                 await _context.SaveChangesAsync();
 
-                ret = userModel.UserId;
+                ret = userModel.UserId; 
             }
             catch (Exception ex)
             {
