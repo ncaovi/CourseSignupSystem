@@ -11,7 +11,7 @@ namespace CourseSignupSystem.Migrations
     [DbContext(typeof(DataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildModel(ModelBuilder modelBuilder) 
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +29,9 @@ namespace CourseSignupSystem.Migrations
                     b.Property<string>("ClassCode")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
+
+                    b.Property<int>("ClassCourse")
+                        .HasColumnType("int");
 
                     b.Property<string>("ClassCourseName")
                         .HasMaxLength(30)
@@ -55,18 +58,9 @@ namespace CourseSignupSystem.Migrations
                     b.Property<double>("ClassTuition")
                         .HasColumnType("float");
 
-                    b.Property<int>("ClassUser")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("courseModelCourseId")
-                        .HasColumnType("int");
-
                     b.HasKey("ClassId");
 
-                    b.HasIndex("ClassUser")
-                        .IsUnique();
-
-                    b.HasIndex("courseModelCourseId");
+                    b.HasIndex("ClassCourse");
 
                     b.ToTable("Class");
                 });
@@ -164,6 +158,47 @@ namespace CourseSignupSystem.Migrations
                     b.ToTable("Receipts");
                 });
 
+            modelBuilder.Entity("CourseSignupSystem.Models.RegisterClass", b =>
+                {
+                    b.Property<int>("RegisterClassId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("RegistClassDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RegisterClassCourse")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RegisterClassCourseName")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("RegisterClassDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RegisterClassStudentCode")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<string>("RegisterClassStudentName")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
+
+                    b.Property<double>("RegisterClassTuition")
+                        .HasColumnType("float");
+
+                    b.Property<int>("RegisterUser")
+                        .HasColumnType("int");
+
+                    b.HasKey("RegisterClassId");
+
+                    b.HasIndex("RegisterUser");
+
+                    b.ToTable("RegisterClass");
+                });
+
             modelBuilder.Entity("CourseSignupSystem.Models.RoleModel", b =>
                 {
                     b.Property<int>("RoleId")
@@ -179,6 +214,32 @@ namespace CourseSignupSystem.Migrations
                     b.ToTable("Role");
                 });
 
+            modelBuilder.Entity("CourseSignupSystem.Models.ScheduleHoliday", b =>
+                {
+                    b.Property<int>("ScheduleHolidayId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("ScheduleHolidayEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ScheduleHolidayName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ScheduleHolidayReason")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ScheduleHolidayStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ScheduleHolidayId");
+
+                    b.ToTable("ScheduleHoliday");
+                });
+
             modelBuilder.Entity("CourseSignupSystem.Models.ScheduleModel", b =>
                 {
                     b.Property<int>("ScheduleId")
@@ -188,6 +249,9 @@ namespace CourseSignupSystem.Migrations
 
                     b.Property<DateTime>("Schedule")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("ScheduleClassId")
+                        .HasColumnType("int");
 
                     b.Property<string>("ScheduleClassName")
                         .HasMaxLength(50)
@@ -213,6 +277,10 @@ namespace CourseSignupSystem.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("ScheduleTeacherCode")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("ScheduleTeacherName")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
@@ -223,13 +291,101 @@ namespace CourseSignupSystem.Migrations
                     b.Property<int>("ScheduleUser")
                         .HasColumnType("int");
 
-                    b.HasKey("ScheduleId");
+                    b.Property<int?>("subjectModelSubjectId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("ScheduleSubject");
+                    b.HasKey("ScheduleId");
 
                     b.HasIndex("ScheduleUser");
 
-                    b.ToTable("Schedule");
+                    b.HasIndex("subjectModelSubjectId");
+
+                    b.ToTable("ScheduleTeacher");
+                });
+
+            modelBuilder.Entity("CourseSignupSystem.Models.ScheduleStudent", b =>
+                {
+                    b.Property<int>("ScheduleStudentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ScheduleClassId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ScheduleClassName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ScheduleEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ScheduleOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ScheduleRoom")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("ScheduleStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ScheduleStudentCode")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ScheduleStudentName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("ScheduleSubject")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ScheduleSubjectName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("ScheduleUser")
+                        .HasColumnType("int");
+
+                    b.HasKey("ScheduleStudentId");
+
+                    b.HasIndex("ScheduleUser");
+
+                    b.ToTable("ScheduleStudent");
+                });
+
+            modelBuilder.Entity("CourseSignupSystem.Models.ScoreDetail", b =>
+                {
+                    b.Property<int>("ScoreDetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ScoreClassId")
+                        .HasColumnType("int");
+
+                    b.Property<float>("ScoreDetailMediumScore")
+                        .HasColumnType("real");
+
+                    b.Property<int>("ScoreDetailOral")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ScoreStudentName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("ScoreSubjectName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("ScoreDetailId");
+
+                    b.HasIndex("ScoreClassId");
+
+                    b.HasIndex("ScoreDetailOral");
+
+                    b.ToTable("ScoreDetails");
                 });
 
             modelBuilder.Entity("CourseSignupSystem.Models.ScoreModel", b =>
@@ -259,6 +415,10 @@ namespace CourseSignupSystem.Migrations
                     b.Property<int>("ScoreType")
                         .HasColumnType("int");
 
+                    b.Property<string>("ScoreTypeName")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
                     b.HasKey("ScoreId");
 
                     b.HasIndex("ScoreSubjectId");
@@ -266,6 +426,39 @@ namespace CourseSignupSystem.Migrations
                     b.HasIndex("ScoreType");
 
                     b.ToTable("Score");
+                });
+
+            modelBuilder.Entity("CourseSignupSystem.Models.ScoreOralTest", b =>
+                {
+                    b.Property<int>("ScoreOralTestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("ScoreFinalFisrt")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ScoreFinalSecond")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ScoreOralTestFifth")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ScoreOralTestFisrt")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ScoreOralTestFourth")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ScoreOralTestSecond")
+                        .HasColumnType("real");
+
+                    b.Property<float>("ScoreOralTestThird")
+                        .HasColumnType("real");
+
+                    b.HasKey("ScoreOralTestId");
+
+                    b.ToTable("ScoreOralTests");
                 });
 
             modelBuilder.Entity("CourseSignupSystem.Models.ScoreTypeModel", b =>
@@ -317,6 +510,53 @@ namespace CourseSignupSystem.Migrations
                     b.ToTable("Subject");
                 });
 
+            modelBuilder.Entity("CourseSignupSystem.Models.TurnoverModel", b =>
+                {
+                    b.Property<int>("TurnoverId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("TurnoverEndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("TurnoverStartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TurnoverStudent")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TurnoverStudentClass")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("TurnoverStudentCode")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("TurnoverStudentName")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("TurnoverStudyDate")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("TurnoverTeacher")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<double>("TurnoverTotalTuition")
+                        .HasColumnType("float");
+
+                    b.Property<double>("TurnoverTuition")
+                        .HasColumnType("float");
+
+                    b.HasKey("TurnoverId");
+
+                    b.ToTable("Turnover");
+                });
+
             modelBuilder.Entity("CourseSignupSystem.Models.UserModel", b =>
                 {
                     b.Property<int>("UserId")
@@ -337,9 +577,8 @@ namespace CourseSignupSystem.Migrations
                     b.Property<bool>("UserBlock")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserClass")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                    b.Property<int>("UserClass")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserEmail")
                         .HasColumnType("nvarchar(max)");
@@ -378,44 +617,46 @@ namespace CourseSignupSystem.Migrations
                     b.Property<int>("UserRole")
                         .HasColumnType("int");
 
+                    b.Property<bool>("UserStatus")
+                        .HasColumnType("bit");
+
                     b.Property<string>("UserStudentCode")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("UserSurname")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("UserTaxCode")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("UserTeacherCode")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<int?>("classModelClassId")
+                        .HasColumnType("int");
 
                     b.HasKey("UserId");
 
                     b.HasIndex("UserRole");
+
+                    b.HasIndex("classModelClassId");
 
                     b.ToTable("User");
                 });
 
             modelBuilder.Entity("CourseSignupSystem.Models.ClassModel", b =>
                 {
-                    b.HasOne("CourseSignupSystem.Models.UserModel", "userModel")
-                        .WithOne("classModel")
-                        .HasForeignKey("CourseSignupSystem.Models.ClassModel", "ClassUser")
+                    b.HasOne("CourseSignupSystem.Models.CourseModel", "courseModel")
+                        .WithMany()
+                        .HasForeignKey("ClassCourse")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CourseSignupSystem.Models.CourseModel", "courseModel")
-                        .WithMany()
-                        .HasForeignKey("courseModelCourseId");
-
                     b.Navigation("courseModel");
-
-                    b.Navigation("userModel");
                 });
 
             modelBuilder.Entity("CourseSignupSystem.Models.ReceiptsModel", b =>
@@ -429,23 +670,62 @@ namespace CourseSignupSystem.Migrations
                     b.Navigation("userModel");
                 });
 
-            modelBuilder.Entity("CourseSignupSystem.Models.ScheduleModel", b =>
+            modelBuilder.Entity("CourseSignupSystem.Models.RegisterClass", b =>
                 {
-                    b.HasOne("CourseSignupSystem.Models.SubjectModel", "subjectModel")
+                    b.HasOne("CourseSignupSystem.Models.UserModel", "userModel")
                         .WithMany()
-                        .HasForeignKey("ScheduleSubject")
+                        .HasForeignKey("RegisterUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("userModel");
+                });
+
+            modelBuilder.Entity("CourseSignupSystem.Models.ScheduleModel", b =>
+                {
                     b.HasOne("CourseSignupSystem.Models.UserModel", "userModel")
                         .WithMany()
                         .HasForeignKey("ScheduleUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CourseSignupSystem.Models.SubjectModel", "subjectModel")
+                        .WithMany()
+                        .HasForeignKey("subjectModelSubjectId");
+
                     b.Navigation("subjectModel");
 
                     b.Navigation("userModel");
+                });
+
+            modelBuilder.Entity("CourseSignupSystem.Models.ScheduleStudent", b =>
+                {
+                    b.HasOne("CourseSignupSystem.Models.UserModel", "userModel")
+                        .WithMany()
+                        .HasForeignKey("ScheduleUser")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("userModel");
+                });
+
+            modelBuilder.Entity("CourseSignupSystem.Models.ScoreDetail", b =>
+                {
+                    b.HasOne("CourseSignupSystem.Models.ClassModel", "classModel")
+                        .WithMany()
+                        .HasForeignKey("ScoreClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CourseSignupSystem.Models.ScoreOralTest", "scoreOralTest")
+                        .WithMany()
+                        .HasForeignKey("ScoreDetailOral")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("classModel");
+
+                    b.Navigation("scoreOralTest");
                 });
 
             modelBuilder.Entity("CourseSignupSystem.Models.ScoreModel", b =>
@@ -494,12 +774,18 @@ namespace CourseSignupSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CourseSignupSystem.Models.ClassModel", "classModel")
+                        .WithMany("userModel")
+                        .HasForeignKey("classModelClassId");
+
+                    b.Navigation("classModel");
+
                     b.Navigation("roleModel");
                 });
 
-            modelBuilder.Entity("CourseSignupSystem.Models.UserModel", b =>
+            modelBuilder.Entity("CourseSignupSystem.Models.ClassModel", b =>
                 {
-                    b.Navigation("classModel");
+                    b.Navigation("userModel");
                 });
 #pragma warning restore 612, 618
         }

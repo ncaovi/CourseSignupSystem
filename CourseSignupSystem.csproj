@@ -33,7 +33,7 @@
 	<ItemGroup>
 	  <Folder Include="Upload\Image\Teachers\" />
 	  <Folder Include="Upload\Image\Students\" />
-	  <Folder Include="Upload\Image\Teachers\" />
+	  <Folder Include="Services\LandingPage\" />
 	</ItemGroup>
 
 </Project>

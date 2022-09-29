@@ -18,8 +18,7 @@ namespace CourseSignupSystem.Services.CMS.Administration
         protected DataContext _context;
         protected IEncode _enCode;
 
-
-        public AdminSvc(DataContext context, IEncode encode) 
+        public AdminSvc(DataContext context, IEncode encode)
         {
             _context = context;
             _enCode = encode;
@@ -34,6 +33,35 @@ namespace CourseSignupSystem.Services.CMS.Administration
         }
 
         #region Role
+        public async Task<List<RoleModel>> GetRole()
+        {
+            var role = await _context.RoleModels.ToListAsync();
+            return role;
+        }
+        public async Task<RoleModel> roleId(int id)
+        {
+
+            var role = await _context.RoleModels.FindAsync(id);
+            return role;
+        }
+        public async Task<int> EditRole(RoleModel roleModel)
+        {
+            int ret = 0;
+            try
+            {
+                RoleModel role = null;
+                role = await roleId(roleModel.RoleId);
+                role.RoleName = roleModel.RoleName;
+
+                _context.Update(role);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                ret = 0;
+            }
+            return ret;
+        }
         public async Task<int> AddRole(RoleModel roleModel)
         {
             int ret = 0;
@@ -316,6 +344,27 @@ namespace CourseSignupSystem.Services.CMS.Administration
                 _context.Update(user);
                 await _context.SaveChangesAsync();
                 ret = userModel.UserId;
+            }
+            catch (Exception ex)
+            {
+                ret = 0;
+            }
+            return ret;
+        }
+
+        public async Task<int> SalaryClosing(UserModel usermodel)
+        {
+            int ret = 0;
+            try
+            {
+                UserModel user = null;
+                user = await GetUser(usermodel.UserId);
+
+                user.UserStatus = true;
+
+                _context.Update(user);
+                await _context.SaveChangesAsync();
+                ret = usermodel.UserId;
             }
             catch (Exception ex)
             {
@@ -1020,7 +1069,7 @@ namespace CourseSignupSystem.Services.CMS.Administration
             {
                 var student = await _context.UserModels.FindAsync(receiptsModel.ReceiptsStudentId);
                 var classs = await _context.ClassModels.FindAsync(student.UserClass);
-
+                var teacher = await _context.ScheduleModels.Where(s => s.ScheduleClassId == classs.ClassId).FirstOrDefaultAsync();
 
                 receiptsModel.ReceiptsTraining = student.UserFisrtName;
                 receiptsModel.ReceiptsClassName = classs.ClassName;
@@ -1028,21 +1077,21 @@ namespace CourseSignupSystem.Services.CMS.Administration
                 receiptsModel.ReceiptsRateFee = classs.ClassTuition;
                 receiptsModel.ReceiptsPayableFee = receiptsModel.ReceiptsFee + receiptsModel.ReceiptsSurcharge;
 
-                if (student != null)
+                if (teacher != null)
                 {
                     TurnoverModel turnoverModel = new TurnoverModel();
                     turnoverModel.TurnoverStudentCode = student.UserStudentCode;
                     turnoverModel.TurnoverStudentName = student.UserFisrtName;
                     turnoverModel.TurnoverStudentClass = classs.ClassName;
+                    turnoverModel.TurnoverTeacher = teacher.ScheduleTeacherName;
+                    turnoverModel.TurnoverStudyDate = Convert.ToString(teacher.ScheduleOn);
+                    turnoverModel.TurnoverStartDate = teacher.ScheduleStartDate;
+                    turnoverModel.TurnoverEndDate = teacher.ScheduleEndDate;
                     turnoverModel.TurnoverTuition = classs.ClassTuition;
+
                     await _context.AddAsync(turnoverModel);
                     await _context.SaveChangesAsync();
                 }
-                else
-                {
-
-                }
-
                 await _context.AddAsync(receiptsModel);
                 await _context.SaveChangesAsync();
                 ret = receiptsModel.ReceiptsId;
@@ -1273,6 +1322,15 @@ namespace CourseSignupSystem.Services.CMS.Administration
         }
         #endregion
 
+
+        #region Turnover (doanh thu)
+        public async Task<List<TurnoverModel>> GetTurnover()
+        {
+            var list = await _context.TurnoverModels.ToListAsync();
+            return list;
+        }
+
+        #endregion
 
     }
 

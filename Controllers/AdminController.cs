@@ -20,7 +20,16 @@ namespace CourseSignupSystem.Controllers
             _adminSvc = adminSvc;
         }
 
-        #region Role  
+        #region Role
+
+        [HttpGet]
+        [Route("GetRole")]
+        public async Task<ActionResult<IEnumerable<RoleModel>>> GetRole()
+        {
+            var role = await _adminSvc.GetRole();
+            return role;
+        }
+
 
         [HttpPost]
         [Route("AddRole")]
@@ -29,6 +38,22 @@ namespace CourseSignupSystem.Controllers
             try
             {
                 var id = await _adminSvc.AddRole(roleModel);
+                roleModel.RoleId = id;
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok(1);
+        }
+
+        [HttpPost]
+        [Route("EditRole")]
+        public async Task<ActionResult<int>> EditRole(RoleModel roleModel)
+        {
+            try
+            {
+                var id = await _adminSvc.EditRole(roleModel);
                 roleModel.RoleId = id;
             }
             catch (Exception ex)
@@ -162,9 +187,23 @@ namespace CourseSignupSystem.Controllers
             try
             {
                 UserModel user = JsonConvert.DeserializeObject<UserModel>(userModel.User);
-
                 await _adminSvc.EditTeacher(user, userModel.UploadImg);
 
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            return Ok(1);
+        }
+
+        [HttpPost]
+        [Route("SalaryTeacher")]
+        public async Task<ActionResult<int>> SalaryTeacher(UserModel userModel)
+        {
+            try
+            {
+                await _adminSvc.SalaryClosing(userModel);
             }
             catch (Exception ex)
             {
@@ -903,6 +942,14 @@ namespace CourseSignupSystem.Controllers
         }
 
         #endregion
+
+        [HttpGet]
+        [Route("ListTurnover")]
+        public async Task<ActionResult<IEnumerable<TurnoverModel>>> ListTurnover()
+        {
+            var list = await _adminSvc.GetTurnover();
+            return list;
+        }
     }
 
 }

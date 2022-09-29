@@ -26,12 +26,14 @@ namespace CourseSignupSystem.Models
 
         [Display(Name = "Ngày học")]
         [StringLength(50)]
-        public string TurnoverStudyDate { get; set; } 
+        public string TurnoverStudyDate { get; set; }
 
         public DateTime TurnoverStartDate { get; set; }
         public DateTime TurnoverEndDate { get; set; }
 
         public double TurnoverTuition { get; set; }
+
+        public double TurnoverTotalTuition { get; set; }
 
         [Display(Name = "Tên Giáo Viên")]
         [StringLength(50)]

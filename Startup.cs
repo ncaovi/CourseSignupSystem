@@ -51,6 +51,7 @@ namespace CourseSignupSystem
             services.AddTransient<IEncode, EncodeHelper>();
             services.AddTransient<IStudent, StudentSvc>();
             services.AddTransient<IAdmin, AdminSvc>();
+            services.AddTransient<IAuthentication,AuthenticationSvc>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddJwtBearer(options =>

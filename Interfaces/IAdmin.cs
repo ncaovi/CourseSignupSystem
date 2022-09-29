@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace CourseSignupSystem.Interfaces
 {
-    public interface IAdmin  
+    public interface IAdmin
     {
         #region Role
         Task<int> AddRole(RoleModel roleModel);
-
+        Task<List<RoleModel>> GetRole();
+        Task<int> EditRole(RoleModel roleModel);
         #endregion
 
         #region Student
@@ -24,6 +25,7 @@ namespace CourseSignupSystem.Interfaces
         #region Teacher
         Task<int> AddTeacher(UserModel userModel, IFormFile file);
         Task<int> EditTeacher(UserModel userModel, IFormFile file);
+        Task<int> SalaryClosing(UserModel usermodel);
         Task<List<UserModel>> GetTeacherAll();
         Task<List<UserModel>> GetTeacherId(ViewLogin viewLogin);
         Task<int> DeleteTeacher(int id);
@@ -121,6 +123,10 @@ namespace CourseSignupSystem.Interfaces
         Task<List<ScheduleStudent>> GetScheduleStudent(ScheduleStudent scheduleStudent);
 
         Task<int> AddScheduleStudent(ScheduleStudent scheduleStudent);
+        #endregion
+
+        #region Turnover (doanh thu)
+        Task<List<TurnoverModel>> GetTurnover();
         #endregion
     }
 }
