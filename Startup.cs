@@ -43,15 +43,35 @@ namespace CourseSignupSystem
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CourseSignupSystem", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SignupSystem", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT with Bearer into field",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                   {
+                     new OpenApiSecurityScheme
+                     {
+                       Reference = new OpenApiReference
+                       {
+                         Type = ReferenceType.SecurityScheme,
+                         Id = "Bearer"
+                       }
+                      },
+                      new string[] { }
+                    }
+                  });
             });
             services.AddDbContext<DataContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddTransient<IEncode, EncodeHelper>();
+            services.AddTransient<IAuthentication, AuthenticationSvc>();
             services.AddTransient<IStudent, StudentSvc>();
             services.AddTransient<IAdmin, AdminSvc>();
-            services.AddTransient<IAuthentication,AuthenticationSvc>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                .AddJwtBearer(options =>
@@ -81,7 +101,6 @@ namespace CourseSignupSystem
             }
 
             app.UseHttpsRedirection();
-
             app.UseStaticFiles();
 
             app.UseRouting();

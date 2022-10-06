@@ -48,6 +48,9 @@ namespace CourseSignupSystem.Migrations
                     b.Property<int>("ClassQuantity")
                         .HasColumnType("int");
 
+                    b.Property<int>("ClassQuantityPresent")
+                        .HasColumnType("int");
+
                     b.Property<string>("ClassSchoolYear")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
@@ -616,6 +619,9 @@ namespace CourseSignupSystem.Migrations
 
                     b.Property<int>("UserRole")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserRoleName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("UserStatus")
                         .HasColumnType("bit");

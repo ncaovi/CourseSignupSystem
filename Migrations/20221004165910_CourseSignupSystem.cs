@@ -133,6 +133,7 @@ namespace CourseSignupSystem.Migrations
                     ClassDescription = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
                     ClassCourseName = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     ClassQuantity = table.Column<int>(type: "int", nullable: false),
+                    ClassQuantityPresent = table.Column<int>(type: "int", nullable: false),
                     ClassStatus = table.Column<bool>(type: "bit", nullable: false),
                     ClassTuition = table.Column<double>(type: "float", nullable: false)
                 },
@@ -227,6 +228,7 @@ namespace CourseSignupSystem.Migrations
                     UserParttimeSubject = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     UserPassword = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
                     UserRole = table.Column<int>(type: "int", nullable: false),
+                    UserRoleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserBlock = table.Column<bool>(type: "bit", nullable: false),
                     UserStatus = table.Column<bool>(type: "bit", nullable: false),
                     IsDelete = table.Column<bool>(type: "bit", nullable: false),

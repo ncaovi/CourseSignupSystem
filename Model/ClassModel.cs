@@ -36,6 +36,8 @@ namespace CourseSignupSystem.Models
         [Display(Name = "Số Lượng")]
         public int ClassQuantity { get; set; }
 
+        public int ClassQuantityPresent { get; set; }
+
         [Display(Name = "Trạng Thái")]
         public bool ClassStatus { get; set; }
 
@@ -45,7 +47,7 @@ namespace CourseSignupSystem.Models
         //[ForeignKey("userModel")]
         //public int ClassUser { get; set; }
 
-        public ICollection<UserModel> userModel { get; set; } 
+        public ICollection<UserModel> userModel { get; set; }
 
         public CourseModel courseModel { get; set; }
     }

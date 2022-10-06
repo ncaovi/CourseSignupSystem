@@ -187,3 +187,6 @@ E:\CourseSignupSystem\obj\Debug\net5.0\refint\CourseSignupSystem.dll
 E:\CourseSignupSystem\obj\Debug\net5.0\CourseSignupSystem.pdb
 E:\CourseSignupSystem\obj\Debug\net5.0\CourseSignupSystem.genruntimeconfig.cache
 E:\CourseSignupSystem\obj\Debug\net5.0\ref\CourseSignupSystem.dll
+E:\CourseSignupSystem\bin\Debug\net5.0\System.Net.Http.Formatting.dll
+E:\CourseSignupSystem\bin\Debug\net5.0\System.Web.Http.dll
+E:\CourseSignupSystem\bin\Debug\net5.0\Swashbuckle.Core.dll

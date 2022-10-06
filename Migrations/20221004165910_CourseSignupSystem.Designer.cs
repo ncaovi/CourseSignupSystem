@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseSignupSystem.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220929072248_CourseSignupSystem")]
+    [Migration("20221004165910_CourseSignupSystem")]
     partial class CourseSignupSystem
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,9 @@ namespace CourseSignupSystem.Migrations
                         .HasColumnType("nvarchar(20)");
 
                     b.Property<int>("ClassQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClassQuantityPresent")
                         .HasColumnType("int");
 
                     b.Property<string>("ClassSchoolYear")
@@ -618,6 +621,9 @@ namespace CourseSignupSystem.Migrations
 
                     b.Property<int>("UserRole")
                         .HasColumnType("int");
+
+                    b.Property<string>("UserRoleName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("UserStatus")
                         .HasColumnType("bit");

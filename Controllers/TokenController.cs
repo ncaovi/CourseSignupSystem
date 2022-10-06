@@ -1,6 +1,7 @@
 ﻿using CourseSignupSystem.Interfaces;
 using CourseSignupSystem.Models;
 using CourseSignupSystem.Models.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ActionName("Login")]
         public async Task<IActionResult> Login(ViewLogin viewLogin)
         {
@@ -75,31 +77,32 @@ namespace CourseSignupSystem.Controllers
         }
 
 
-        [HttpGet]
-        [ActionName("UserEmail")]
-        public async Task<ActionResult<UserModel>> GetUserEmail(ViewLogin viewLogin)
-        {
-            var user = await _authentication.GetUserEmail(viewLogin);
-            return user;
-        }
+        //[HttpGet]
+        //[ActionName("UserEmail")]
+        //public async Task<ActionResult<UserModel>> GetUserEmail(ViewLogin viewLogin)
+        //{
+        //    var user = await _authentication.GetUserEmail(viewLogin);
+        //    return user;
+        //}
 
-        [HttpGet]
-        [ActionName("UserTeacherCode")]
-        public async Task<ActionResult<UserModel>> GetUserTeacherCode(ViewLogin viewLogin)
-        {
-            var user = await _authentication.GetUserTeacherCode(viewLogin);
-            return user;
-        }
+        //[HttpGet]
+        //[ActionName("UserTeacherCode")]
+        //public async Task<ActionResult<UserModel>> GetUserTeacherCode(ViewLogin viewLogin)
+        //{
+        //    var user = await _authentication.GetUserTeacherCode(viewLogin);
+        //    return user;
+        //}
 
-        [HttpGet]
-        [ActionName("UserStudentCode")]
-        public async Task<ActionResult<UserModel>> GetUserStudentCode(ViewLogin viewLogin)
-        {
-            var user = await _authentication.GetUserStudentCode(viewLogin);
-            return user;
-        }
+        //[HttpGet]
+        //[ActionName("UserStudentCode")]
+        //public async Task<ActionResult<UserModel>> GetUserStudentCode(ViewLogin viewLogin)
+        //{
+        //    var user = await _authentication.GetUserStudentCode(viewLogin);
+        //    return user;
+        //}
 
         [HttpPut("{email}")]
+        [Authorize(Roles = "Admin")]
         [ActionName("ChangePassAdmin")]
         public async Task<ActionResult<int>> ChangePass(string email, UserModel userModel)
         {
@@ -121,6 +124,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPut("{teachercode}")]
+        [Authorize(Roles = "Giang Vien")]
         [ActionName("ChangePassTeacher")]
         public async Task<ActionResult<int>> ChangePassTeacherCode(string teachercode, UserModel userModel)
         {
@@ -142,6 +146,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPut("{studentcode}")]
+        [Authorize(Roles = "Sinh Vien")]
         [ActionName("ChangePassStudent")]
         public async Task<ActionResult<int>> ChangePassStudentCode(string studentcode, UserModel userModel)
         {

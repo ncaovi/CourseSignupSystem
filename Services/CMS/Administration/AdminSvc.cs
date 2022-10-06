@@ -24,7 +24,6 @@ namespace CourseSignupSystem.Services.CMS.Administration
             _enCode = encode;
         }
 
-
         public async Task<UserModel> GetUser(int id)
         {
             UserModel user = null;
@@ -32,6 +31,30 @@ namespace CourseSignupSystem.Services.CMS.Administration
             return user;
         }
 
+
+        public async Task<int> AddAdmin(UserModel userModel)
+        {
+            int ret = 0;
+            try
+            {
+                userModel.UserBlock = false;
+                userModel.UserPassword = _enCode.Encode(userModel.UserPassword);
+                userModel.IsDelete = true;
+                userModel.UserRole = 1;
+                var role = await _context.RoleModels.FindAsync(userModel.UserRole);
+
+                userModel.UserRoleName = role.RoleName;
+
+                await _context.AddAsync(userModel);
+                await _context.SaveChangesAsync();
+                ret = userModel.UserId;
+            }
+            catch (Exception ex)
+            {
+                ret = 0;
+            }
+            return ret;
+        }
         #region Role
         public async Task<List<RoleModel>> GetRole()
         {
@@ -76,6 +99,23 @@ namespace CourseSignupSystem.Services.CMS.Administration
             }
             return ret;
         }
+
+        public async Task<int> DeleteRole(int id)
+        {
+            int ret = 0;
+            try
+            {
+                var role = await roleId(id);
+                _context.Remove(role);
+                await _context.SaveChangesAsync();
+                ret = role.RoleId;
+            }
+            catch (Exception ex)
+            {
+                ret = 0;
+            }
+            return ret;
+        }
         #endregion
 
         #region Student
@@ -98,45 +138,68 @@ namespace CourseSignupSystem.Services.CMS.Administration
             int ret = 0;
             try
             {
-                userModel.UserBlock = false;
-                userModel.UserPassword = _enCode.Encode(userModel.UserPassword);
-                userModel.IsDelete = true;
-                userModel.UserRole = 3;
+                var classs = await _context.ClassModels.FindAsync(userModel.UserClass);
 
-                if (file != null)
+                if (classs != null)
                 {
-                    if (file.Length > 0)
+                    if (classs.ClassQuantityPresent < classs.ClassQuantity)
                     {
-                        var fileName = Path.GetFileName(file.FileName);
+                        classs.ClassQuantityPresent += 1;
+                        _context.Update(classs);
+                        await _context.SaveChangesAsync();
 
-                        var fileExtension = Path.GetExtension(fileName);
-                        var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
+                        userModel.UserBlock = false;
+                        userModel.UserPassword = _enCode.Encode(userModel.UserPassword);
+                        userModel.IsDelete = true;
+                        userModel.UserRole = 3;
+                        var role = await _context.RoleModels.FindAsync(userModel.UserRole);
 
-                        var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
-                        fileName = DateTime.Now.Ticks + extension;
+                        userModel.UserRoleName = role.RoleName;
 
-                        var pathBuilt = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Image\\Students");
-
-                        if (!Directory.Exists(pathBuilt))
+                        if (file != null)
                         {
-                            Directory.CreateDirectory(pathBuilt);
+                            if (file.Length > 0)
+                            {
+                                var fileName = Path.GetFileName(file.FileName);
+
+                                var fileExtension = Path.GetExtension(fileName);
+                                var newFileName = String.Concat(Convert.ToString(Guid.NewGuid()), fileExtension);
+
+                                var extension = "." + file.FileName.Split('.')[file.FileName.Split('.').Length - 1];
+                                fileName = DateTime.Now.Ticks + extension;
+
+                                var pathBuilt = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Image\\Students");
+
+                                if (!Directory.Exists(pathBuilt))
+                                {
+                                    Directory.CreateDirectory(pathBuilt);
+                                }
+
+                                var path = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Image\\Students", fileName);
+
+                                using (var stream = new FileStream(path, FileMode.Create))
+                                {
+                                    await file.CopyToAsync(stream);
+                                }
+
+
+                                userModel.UserImg = fileName;
+                            }
                         }
 
-                        var path = Path.Combine(Directory.GetCurrentDirectory(), "Upload\\Image\\Students", fileName);
-
-                        using (var stream = new FileStream(path, FileMode.Create))
-                        {
-                            await file.CopyToAsync(stream);
-                        }
-
-
-                        userModel.UserImg = fileName;
+                        await _context.AddAsync(userModel);
+                        await _context.SaveChangesAsync();
+                        ret = userModel.UserId;
+                    }
+                    else
+                    {
+                        ret = 0;
                     }
                 }
-
-                await _context.AddAsync(userModel);
-                await _context.SaveChangesAsync();
-                ret = userModel.UserId;
+                else
+                {
+                    ret = 0;
+                }
             }
             catch (Exception ex)
             {
@@ -247,7 +310,9 @@ namespace CourseSignupSystem.Services.CMS.Administration
                 userModel.UserPassword = _enCode.Encode(userModel.UserPassword);
                 userModel.IsDelete = true;
                 userModel.UserRole = 2;
+                var role = await _context.RoleModels.FindAsync(userModel.UserRole);
 
+                userModel.UserRoleName = role.RoleName;
 
                 if (file != null)
                 {
@@ -1321,7 +1386,6 @@ namespace CourseSignupSystem.Services.CMS.Administration
             return ret;
         }
         #endregion
-
 
         #region Turnover (doanh thu)
         public async Task<List<TurnoverModel>> GetTurnover()

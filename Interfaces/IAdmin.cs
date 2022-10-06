@@ -12,6 +12,7 @@ namespace CourseSignupSystem.Interfaces
         Task<int> AddRole(RoleModel roleModel);
         Task<List<RoleModel>> GetRole();
         Task<int> EditRole(RoleModel roleModel);
+        Task<int> DeleteRole(int id);
         #endregion
 
         #region Student

@@ -99,6 +99,7 @@ namespace CourseSignupSystem.Models
         [ForeignKey("roleModel")]
         public int UserRole { get; set; }
 
+         public string UserRoleName { get; set; }
         public bool UserBlock { get; set; }
 
         public bool UserStatus { get; set; }

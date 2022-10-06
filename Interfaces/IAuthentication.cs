@@ -8,8 +8,7 @@ namespace CourseSignupSystem.Interfaces
     {
         Task<UserModel> Login(ViewLogin viewLogin);
 
-        Task<UserModel> GetUserEmail(ViewLogin viewLogin);   
-
+        Task<UserModel> GetUserEmail(ViewLogin viewLogin);
         Task<UserModel> GetUserTeacherCode(ViewLogin viewLogin);
         Task<UserModel> GetUserStudentCode(ViewLogin viewLogin);
 

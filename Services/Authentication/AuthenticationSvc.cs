@@ -21,12 +21,11 @@ namespace CourseSignupSystem.Services.Authentication
 
         public async Task<UserModel> Login(ViewLogin viewLogin)
         {
+
             var admin = await _context.UserModels.Where(
-                p => p.UserEmail.Equals(viewLogin.UserEmail) && p.UserPassword.Equals(_enCode.Encode(viewLogin.UserPassword))
-                || p.UserStudentCode.Equals(viewLogin.UserStudentCode) && p.UserPassword.Equals(_enCode.Encode(viewLogin.UserPassword))
+                p => p.UserEmail.Equals(viewLogin.UserEmail) || p.UserStudentCode.Equals(viewLogin.UserStudentCode)
                 || p.UserTeacherCode.Equals(viewLogin.UserTeacherCode) && p.UserPassword.Equals(_enCode.Encode(viewLogin.UserPassword))
                 ).FirstOrDefaultAsync();
-
             return admin;
         }
 
@@ -131,7 +130,7 @@ namespace CourseSignupSystem.Services.Authentication
                 _context.Update(_user);
                 await _context.SaveChangesAsync();
 
-                ret = userModel.UserId; 
+                ret = userModel.UserId;
             }
             catch (Exception ex)
             {

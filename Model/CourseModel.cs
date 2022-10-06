@@ -15,7 +15,7 @@ namespace CourseSignupSystem.Models
 
         [Display(Name = "Mã Khóa")]
         [StringLength(30)]
-        public string CourseCode { get; set; } 
+        public string CourseCode { get; set; }
 
         [Display(Name = "Tên Khóa")]
         [StringLength(30)]
