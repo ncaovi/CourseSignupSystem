@@ -14,6 +14,7 @@ namespace CourseSignupSystem.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AdminController : ControllerBase
     {
         private readonly IAdmin _adminSvc;
@@ -24,7 +25,7 @@ namespace CourseSignupSystem.Controllers
 
         #region Role
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("GetRole")]
         public async Task<ActionResult<IEnumerable<RoleModel>>> GetRole()
@@ -33,7 +34,7 @@ namespace CourseSignupSystem.Controllers
             return role;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("AddRole")]
         public async Task<ActionResult<int>> AddRole(RoleModel roleModel)
@@ -50,7 +51,7 @@ namespace CourseSignupSystem.Controllers
             return Ok(1);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("EditRole")]
         public async Task<ActionResult<int>> EditRole(RoleModel roleModel)
@@ -67,7 +68,7 @@ namespace CourseSignupSystem.Controllers
             return Ok(1);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("DeleteRole/{id}")]
         public async Task<ActionResult<int>> DeleteRole(int id)
@@ -92,7 +93,7 @@ namespace CourseSignupSystem.Controllers
         #endregion
 
         #region Student
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [HttpGet]
         [Route("ListStudent")]
         public async Task<ActionResult<IEnumerable<UserModel>>> GetAllStudent()
@@ -102,7 +103,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [Route("StudentId")]
         public async Task<ActionResult<IEnumerable<UserModel>>> GetStudentId(ViewLogin viewLogin)
         {
@@ -111,15 +112,14 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [Route("AddStudent")]
-        public async Task<ActionResult<int>> AddStudent([FromForm] UserModel userModel)
+        public async Task<ActionResult<int>> AddStudent([FromBody] UserModel userModel)
         {
             try
             {
-                UserModel user = JsonConvert.DeserializeObject<UserModel>(userModel.User);
 
-                int id = await _adminSvc.AddStudent(user, userModel.UploadImg);
+                int id = await _adminSvc.AddStudent(userModel, userModel.UploadImg);
                 userModel.UserId = id;
 
             }
@@ -131,15 +131,13 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [Route("EditStudent")]
-        public async Task<ActionResult<int>> EditStudent([FromForm] UserModel userModel)
+        public async Task<ActionResult<int>> EditStudent([FromBody] UserModel userModel)
         {
             try
             {
-                UserModel user = JsonConvert.DeserializeObject<UserModel>(userModel.User);
-
-                await _adminSvc.EditStudent(user, userModel.UploadImg);
+                await _adminSvc.EditStudent(userModel, userModel.UploadImg);
 
             }
             catch (Exception ex)
@@ -150,7 +148,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [Route("DeleteStudent/{id}")]
         public async Task<ActionResult<int>> DeleteStudent(int id)
         {
@@ -174,7 +172,7 @@ namespace CourseSignupSystem.Controllers
         #endregion
 
         #region Teacher
-        [Authorize(Roles = "Admin, Giang Vien")]
+      //  [Authorize(Roles = "Admin, Giang Vien")]
 
         [HttpGet]
         [Route("ListTeacher")]
@@ -184,7 +182,7 @@ namespace CourseSignupSystem.Controllers
             return getalluser;
         }
 
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [HttpGet]
         [Route("TeacherId")]
         public async Task<ActionResult<IEnumerable<UserModel>>> GetTeacherId(ViewLogin viewLogin)
@@ -193,16 +191,15 @@ namespace CourseSignupSystem.Controllers
             return getalluser;
         }
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("AddTeacher")]
-        public async Task<ActionResult<int>> AddTeacher([FromForm] UserModel userModel)
+        public async Task<ActionResult<int>> AddTeacher([FromBody] UserModel userModel)
         {
             try
             {
-                UserModel user = JsonConvert.DeserializeObject<UserModel>(userModel.User);
 
-                int id = await _adminSvc.AddTeacher(user, userModel.UploadImg);
+                int id = await _adminSvc.AddTeacher(userModel, userModel.UploadImg);
                 userModel.UserId = id;
 
             }
@@ -213,15 +210,14 @@ namespace CourseSignupSystem.Controllers
             return Ok(1);
         }
 
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [HttpPost]
         [Route("EditTeacher")]
-        public async Task<ActionResult<int>> EditTeacher([FromForm] UserModel userModel)
+        public async Task<ActionResult<int>> EditTeacher([FromBody] UserModel userModel)
         {
             try
             {
-                UserModel user = JsonConvert.DeserializeObject<UserModel>(userModel.User);
-                await _adminSvc.EditTeacher(user, userModel.UploadImg);
+                await _adminSvc.EditTeacher(userModel, userModel.UploadImg);
 
             }
             catch (Exception ex)
@@ -233,7 +229,7 @@ namespace CourseSignupSystem.Controllers
 
         [HttpPost]
         [Route("SalaryTeacher")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<ActionResult<int>> SalaryTeacher(UserModel userModel)
         {
             try
@@ -247,7 +243,7 @@ namespace CourseSignupSystem.Controllers
             return Ok(1);
         }
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("DeleteTeacher/{id}")]
         public async Task<ActionResult<int>> DeleteTeacher(int id)
@@ -272,7 +268,7 @@ namespace CourseSignupSystem.Controllers
         #endregion
 
         #region Course
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("ListCourse")]
         public async Task<ActionResult<IEnumerable<CourseModel>>> GetAllCourse()
@@ -281,7 +277,7 @@ namespace CourseSignupSystem.Controllers
             return list;
         }
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("CourseId")]
         public async Task<ActionResult<IEnumerable<CourseModel>>> GetCourse(CourseModel courseModel)
@@ -290,7 +286,7 @@ namespace CourseSignupSystem.Controllers
             return list;
         }
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("AddCourse")]
         public async Task<ActionResult<int>> AddCourse(CourseModel courseModel)
@@ -308,7 +304,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [Route("EditCourse")]
         public async Task<ActionResult<int>> EditCourse(CourseModel courseModel)
         {
@@ -325,7 +321,7 @@ namespace CourseSignupSystem.Controllers
 
         [HttpPost]
         [Route("CopyCourse")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<ActionResult<int>> CopyCourse(CourseModel courseModel)
         {
             try
@@ -342,7 +338,7 @@ namespace CourseSignupSystem.Controllers
 
         [HttpDelete]
         [Route("DeleteCourse/{id}")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         public async Task<ActionResult<int>> DeleteCourse(int id)
         {
             if (id == null)
@@ -365,7 +361,7 @@ namespace CourseSignupSystem.Controllers
         #endregion
 
         #region Department
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("ListDepartment")]
         public async Task<ActionResult<IEnumerable<DepartmentModel>>> ListAllDepartment()
@@ -373,7 +369,7 @@ namespace CourseSignupSystem.Controllers
             var list = await _adminSvc.GetDepartment();
             return list;
         }
-        [Authorize(Roles = "Admin")]
+      //  [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("DepartmentId")]
         public async Task<ActionResult<IEnumerable<DepartmentModel>>> GetDepartmentId(DepartmentModel department)
@@ -382,7 +378,7 @@ namespace CourseSignupSystem.Controllers
             return list;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("AddDepartment")]
         public async Task<ActionResult<int>> AddDepartment(DepartmentModel department)
@@ -399,7 +395,7 @@ namespace CourseSignupSystem.Controllers
             return Ok(1);
         }
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("EditDepartment")]
         public async Task<ActionResult<int>> EditDepartment(DepartmentModel Department)
@@ -415,7 +411,7 @@ namespace CourseSignupSystem.Controllers
             return Ok(1);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("DeleteDepartment/{id}")]
         public async Task<ActionResult<int>> DeleteDepartment(int id)
@@ -441,7 +437,7 @@ namespace CourseSignupSystem.Controllers
 
         #region Subject 
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("ListSubject")]
         public async Task<ActionResult<IEnumerable<SubjectModel>>> ListSubject()
@@ -450,7 +446,7 @@ namespace CourseSignupSystem.Controllers
             return list;
         }
 
-        [Authorize(Roles = "Admin")]
+      //  [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("ListSubjectAll")]
         public async Task<ActionResult<IEnumerable<SubjectModel>>> ListAllSubject()
@@ -459,7 +455,7 @@ namespace CourseSignupSystem.Controllers
             return list;
         }
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("SubjectId")]
         public async Task<ActionResult<IEnumerable<SubjectModel>>> ListSubjectId(SubjectModel subjectModel)
@@ -468,7 +464,7 @@ namespace CourseSignupSystem.Controllers
             return list;
         }
 
-        [Authorize(Roles = "Admin")]
+      //  [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("AddSubject")]
         public async Task<ActionResult<int>> AddSubject(SubjectModel subjectModel)
@@ -485,7 +481,7 @@ namespace CourseSignupSystem.Controllers
             return Ok(1);
         }
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("EditSubject")]
         public async Task<ActionResult<int>> EditSubject(SubjectModel subjectModel)
@@ -501,7 +497,7 @@ namespace CourseSignupSystem.Controllers
             return Ok(1);
         }
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("DeleteSubject/{id}")]
         public async Task<ActionResult<int>> DeleteSubject(int id)
@@ -527,7 +523,7 @@ namespace CourseSignupSystem.Controllers
 
         #region ScoreType (Loại Điểm)
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("ListScoreType")]
         public async Task<ActionResult<IEnumerable<ScoreTypeModel>>> ListAllScoreType()
@@ -536,7 +532,7 @@ namespace CourseSignupSystem.Controllers
             return list;
         }
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("AddScoreType")]
         public async Task<ActionResult<int>> AddScoreType(ScoreTypeModel scoreTypeModel)
@@ -553,7 +549,7 @@ namespace CourseSignupSystem.Controllers
             return Ok(1);
         }
 
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("EditScoreType")]
         public async Task<ActionResult<int>> EditScoreType(ScoreTypeModel scoreTypeModel)
@@ -569,7 +565,7 @@ namespace CourseSignupSystem.Controllers
             return Ok(1);
         }
 
-        [Authorize(Roles = "Admin")]
+      //  [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("DeleteScoreType/{id}")]
         public async Task<ActionResult<int>> DeleteScoreType(int id)
@@ -594,7 +590,7 @@ namespace CourseSignupSystem.Controllers
         #endregion
 
         #region Score (Điểm)
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [HttpGet]
         [Route("ListScore")]
         public async Task<ActionResult<IEnumerable<ScoreModel>>> ListAllScore()
@@ -604,7 +600,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [Route("ListScoreAll")]
         public async Task<ActionResult<IEnumerable<ScoreModel>>> ListScoreAll()
         {
@@ -613,7 +609,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [Route("ScoreId")]
         public async Task<ActionResult<IEnumerable<ScoreModel>>> ScoreId(ScoreModel scoreModel)
         {
@@ -622,7 +618,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [Route("AddScore")]
         public async Task<ActionResult<int>> AddScore(ScoreModel scoreModel)
         {
@@ -639,7 +635,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [Route("EditScore")]
         public async Task<ActionResult<int>> EditScore(ScoreModel scoreModel)
         {
@@ -655,7 +651,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [Route("DeleteScore/{id}")]
         public async Task<ActionResult<int>> DeleteScore(int id)
         {
@@ -679,7 +675,7 @@ namespace CourseSignupSystem.Controllers
         #endregion
 
         #region Class (Lớp Học)
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("ListClass")]
         public async Task<ActionResult<IEnumerable<ClassModel>>> ListClass()
@@ -689,7 +685,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [Route("ListClassStudent")]
         public async Task<ActionResult<IEnumerable<UserModel>>> ListClassStudent(ClassModel classModel)
         {
@@ -698,7 +694,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [Route("ClassId")]
         public async Task<ActionResult<IEnumerable<ClassModel>>> ClassId(ClassModel classModel)
         {
@@ -707,7 +703,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Route("AddClass")]
         public async Task<ActionResult<int>> AddClass(ClassModel classModel)
         {
@@ -724,7 +720,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Route("EditClass")]
         public async Task<ActionResult<int>> EditClass(ClassModel classModel)
         {
@@ -740,7 +736,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [Route("DeleteClass/{id}")]
         public async Task<ActionResult<int>> DeleteClass(int id)
         {
@@ -764,7 +760,7 @@ namespace CourseSignupSystem.Controllers
         #endregion
 
         #region ScoreDetail (Bảng Điểm)
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [HttpGet]
         [Route("ListScoreDetail")]
         public async Task<ActionResult<IEnumerable<ScoreDetail>>> ListScoreDetail()
@@ -774,7 +770,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [Route("ScoreDetailId")]
         public async Task<ActionResult<IEnumerable<ScoreDetail>>> ScoreDetailId(ScoreDetail scoreDetail)
         {
@@ -783,7 +779,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [Route("AddScoreDetail")]
         public async Task<ActionResult<int>> AddScoreDetai(ViewScore viewScore)
         {
@@ -799,7 +795,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [Route("EditScoreDetail")]
         public async Task<ActionResult<int>> EditScoreDetail(ViewScore viewScore)
         {
@@ -816,7 +812,7 @@ namespace CourseSignupSystem.Controllers
         #endregion
 
         #region Receipts (học phí)
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [HttpGet]
         [Route("ListReceipts")]
         public async Task<ActionResult<IEnumerable<ReceiptsModel>>> ListReceipts()
@@ -825,7 +821,7 @@ namespace CourseSignupSystem.Controllers
             return list;
         }
 
-        [Authorize(Roles = "Admin, Giang Vien")]
+       // [Authorize(Roles = "Admin, Giang Vien")]
         [HttpPost]
         [Route("AddReceipts")]
         public async Task<ActionResult<int>> AddReceipts(ReceiptsModel receiptsModel)
@@ -844,7 +840,7 @@ namespace CourseSignupSystem.Controllers
         #endregion
 
         #region Schedule ( Lịch Dạy)
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("ListSchedule")]
         public async Task<ActionResult<IEnumerable<ScheduleModel>>> ListSchedule()
@@ -854,7 +850,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [Route("ScheduleId")]
         public async Task<ActionResult<IEnumerable<ScheduleModel>>> ScheduleId(ScheduleModel scheduleModel)
         {
@@ -863,7 +859,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Route("AddSchedule")]
         public async Task<ActionResult<int>> AddSchedule(ScheduleModel scheduleModel)
         {
@@ -880,7 +876,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [Route("EditSchedule")]
         public async Task<ActionResult<int>> EditSchedule(ScheduleModel scheduleModel)
         {
@@ -896,7 +892,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [Route("DeleteSchedule/{id}")]
         public async Task<ActionResult<int>> DeleteSchedule(int id)
         {
@@ -919,7 +915,7 @@ namespace CourseSignupSystem.Controllers
         #endregion
 
         #region Schedule (Ngày Nghỉ)
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("ListScheduleHoliDay")]
         public async Task<ActionResult<IEnumerable<ScheduleHoliday>>> ListScheduleHoliday()
@@ -928,7 +924,7 @@ namespace CourseSignupSystem.Controllers
             return list;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("ScheduleHolidayId")]
         public async Task<ActionResult<IEnumerable<ScheduleHoliday>>> ScheduleHolidayId(ScheduleHoliday scheduleHoliday)
@@ -937,7 +933,7 @@ namespace CourseSignupSystem.Controllers
             return list;
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         [Route("AddScheduleHoliday")]
         public async Task<ActionResult<int>> AddScheduleHoliday(ScheduleHoliday scheduleHoliday)
@@ -955,7 +951,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [Route("EditScheduleHoliday")]
         public async Task<ActionResult<int>> EditScheduleHoliday(ScheduleHoliday scheduleHoliday)
         {
@@ -971,7 +967,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [Route("DeleteScheduleHoliday/{id}")]
         public async Task<ActionResult<int>> DeleteScheduleHoliday(int id)
         {
@@ -994,7 +990,7 @@ namespace CourseSignupSystem.Controllers
         #endregion
 
         #region Schedule (Học Sinh)
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("ScheduleStudentId")]
         public async Task<ActionResult<IEnumerable<ScheduleStudent>>> ScheduleStudentId(ScheduleStudent scheduleStudent)
@@ -1004,7 +1000,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [Route("AddScheduleStudent")]
         public async Task<ActionResult<int>> AddScheduleStudent(ScheduleStudent scheduleStudent)
         {
@@ -1022,7 +1018,7 @@ namespace CourseSignupSystem.Controllers
 
         #endregion
 
-        [Authorize(Roles = "Admin")]
+       //[Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("ListTurnover")]
         public async Task<ActionResult<IEnumerable<TurnoverModel>>> ListTurnover()

@@ -23,8 +23,7 @@ namespace CourseSignupSystem.Services.Authentication
         {
 
             var admin = await _context.UserModels.Where(
-                p => p.UserEmail.Equals(viewLogin.UserEmail) || p.UserStudentCode.Equals(viewLogin.UserStudentCode)
-                || p.UserTeacherCode.Equals(viewLogin.UserTeacherCode) && p.UserPassword.Equals(_enCode.Encode(viewLogin.UserPassword))
+                p => p.UserEmail.Equals(viewLogin.UserEmail)  && p.UserPassword.Equals(_enCode.Encode(viewLogin.UserPassword))
                 ).FirstOrDefaultAsync();
             return admin;
         }
@@ -42,10 +41,10 @@ namespace CourseSignupSystem.Services.Authentication
             return users;
         }
 
-        public async Task<UserModel> GetUserTeacherCode(ViewLogin viewLogin)
+        public async Task<UserModel> GetUserTeacherCode(ViewLogin viewLogin)//truyen ma code vo k truyen tu view login
         {
             UserModel user = null;
-            user = await _context.UserModels.FirstOrDefaultAsync(u => u.UserTeacherCode == viewLogin.UserTeacherCode);
+            /*user = await _context.UserModels.FirstOrDefaultAsync(u => u.UserTeacherCode == viewLogin.UserTeacherCode);*/
             return user;
         }
 
@@ -59,7 +58,7 @@ namespace CourseSignupSystem.Services.Authentication
         public async Task<UserModel> GetUserStudentCode(ViewLogin viewLogin)
         {
             UserModel user = null;
-            user = await _context.UserModels.FirstOrDefaultAsync(u => u.UserStudentCode == viewLogin.UserStudentCode);
+            /*user = await _context.UserModels.FirstOrDefaultAsync(u => u.UserStudentCode == viewLogin.UserStudentCode);*/
             return user;
         }
 

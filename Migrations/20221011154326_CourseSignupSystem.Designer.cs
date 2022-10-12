@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseSignupSystem.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20221004165910_CourseSignupSystem")]
+    [Migration("20221011154326_CourseSignupSystem")]
     partial class CourseSignupSystem
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

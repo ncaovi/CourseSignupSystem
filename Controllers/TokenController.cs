@@ -18,6 +18,7 @@ namespace CourseSignupSystem.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize]
     public class TokenController : ControllerBase
     {
         public IAuthentication _authentication;
@@ -33,9 +34,7 @@ namespace CourseSignupSystem.Controllers
         [ActionName("Login")]
         public async Task<IActionResult> Login(ViewLogin viewLogin)
         {
-            if (viewLogin != null && !string.IsNullOrEmpty(viewLogin.UserEmail) && !string.IsNullOrEmpty(viewLogin.UserPassword) ||
-                !string.IsNullOrEmpty(viewLogin.UserStudentCode) && !string.IsNullOrEmpty(viewLogin.UserPassword) ||
-                  !string.IsNullOrEmpty(viewLogin.UserTeacherCode) && !string.IsNullOrEmpty(viewLogin.UserPassword))
+            if (ModelState.IsValid)
             {
                 var user = await _authentication.Login(viewLogin);
 
@@ -102,7 +101,7 @@ namespace CourseSignupSystem.Controllers
         //}
 
         [HttpPut("{email}")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [ActionName("ChangePassAdmin")]
         public async Task<ActionResult<int>> ChangePass(string email, UserModel userModel)
         {
@@ -124,7 +123,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPut("{teachercode}")]
-        [Authorize(Roles = "Giang Vien")]
+        //[Authorize(Roles = "Giang Vien")]
         [ActionName("ChangePassTeacher")]
         public async Task<ActionResult<int>> ChangePassTeacherCode(string teachercode, UserModel userModel)
         {
@@ -146,7 +145,7 @@ namespace CourseSignupSystem.Controllers
         }
 
         [HttpPut("{studentcode}")]
-        [Authorize(Roles = "Sinh Vien")]
+        //[Authorize(Roles = "Sinh Vien")]
         [ActionName("ChangePassStudent")]
         public async Task<ActionResult<int>> ChangePassStudentCode(string studentcode, UserModel userModel)
         {

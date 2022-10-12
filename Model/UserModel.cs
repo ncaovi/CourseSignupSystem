@@ -18,6 +18,7 @@ namespace CourseSignupSystem.Models
     public class UserModel
     {
         [Key]
+
         public int UserId { get; set; }
 
         [Display(Name = "Họ")]

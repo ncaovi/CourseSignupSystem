@@ -128,8 +128,9 @@ namespace CourseSignupSystem.Services.CMS.Administration
         public async Task<List<UserModel>> GetStudentId(ViewLogin viewLogin)
         {
 
-            var user = await _context.UserModels.Where(u => u.UserRole == 3).Where(u => u.UserStudentCode == viewLogin.UserStudentCode ||
-               u.UserFisrtName == viewLogin.UserFisrtName || u.UserPhone == viewLogin.UserPhone || u.UserEmail == viewLogin.UserEmail).ToListAsync();
+            /* var user = await _context.UserModels.Where(u => u.UserRole == 3).Where(u => u.UserStudentCode == viewLogin.UserStudentCode ||
+                u.UserFisrtName == viewLogin.UserFisrtName || u.UserPhone == viewLogin.UserPhone || u.UserEmail == viewLogin.UserEmail).ToListAsync();*/
+            List<UserModel> user = null;
             return user;
         }
 
@@ -223,8 +224,7 @@ namespace CourseSignupSystem.Services.CMS.Administration
                 user.UserAddress = userModel.UserAddress;
                 user.UserParentName = userModel.UserParentName;
                 user.UserClass = userModel.UserClass;
-                user.UserPhone = userModel.UserPhone;
-                user.UserPassword = _enCode.Encode(userModel.UserPassword);
+                user.UserPhone = userModel.UserPhone;//edit k cho edit matkhau
 
 
                 if (file != null)
@@ -296,8 +296,9 @@ namespace CourseSignupSystem.Services.CMS.Administration
 
         public async Task<List<UserModel>> GetTeacherId(ViewLogin viewLogin)
         {
-            var user = await _context.UserModels.Where(u => u.UserRole == 2).Where(u => u.UserTeacherCode == viewLogin.UserTeacherCode ||
-               u.UserFisrtName == viewLogin.UserFisrtName || u.UserPhone == viewLogin.UserPhone || u.UserEmail == viewLogin.UserEmail).ToListAsync();
+            /*var user = await _context.UserModels.Where(u => u.UserRole == 2).Where(u => u.UserTeacherCode == viewLogin.UserTeacherCode ||
+               u.UserFisrtName == viewLogin.UserFisrtName || u.UserPhone == viewLogin.UserPhone || u.UserEmail == viewLogin.UserEmail).ToListAsync();*/
+            List<UserModel> user = null;
             return user;
         }
 
@@ -925,7 +926,7 @@ namespace CourseSignupSystem.Services.CMS.Administration
             return classModel;
         }
 
-        public async Task<int> AddClass(ClassModel classModel)
+        public async Task<int> AddClass(ClassModel classModel)//ham do dau Ham` list student a ha ddr
         {
             int ret = 0;
             try
